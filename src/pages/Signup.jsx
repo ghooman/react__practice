@@ -2,20 +2,20 @@ import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import {useForm} from 'react-hook-form'
+import { useForm } from 'react-hook-form';
 
-const Signin = () => {
+const Signup = () => {
+  const navigate = useNavigate();
   const { register, handleSubmit, watch, formState: { errors } } = useForm();
   const onSubmit = data => console.log(data);
 
-
-  const navigate = useNavigate();
+  console.log({errors})
 
   return (
     <Wrap>
-      <SigninBox>
+      <SignupBox>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <TitleBox>로그인</TitleBox>
+          <TitleBox>회원가입</TitleBox>
           <EmailBox>
             <Title>이메일</Title>
             <EmailInput
@@ -25,6 +25,15 @@ const Signin = () => {
               />
               { errors.email ? <ErrorMsg>이메일 형식이 맞지 않습니다.</ErrorMsg> : null }
           </EmailBox>
+          <IdBox>
+            <Title>닉네임</Title>
+            <IdInput
+              {...register('id', {required: true, pattern: /^[a-zA-Zㄱ-힣0-9-_.]{2,12}$/})}
+              type="text"
+              placeholder="닉네임을 입력하세요."
+              ></IdInput>
+              { errors.id ? <ErrorMsg>아이디 형식이 맞지 않습니다.</ErrorMsg> : null }
+          </IdBox>
           <PasswordBox>
             <Title>패스워드</Title>
             <PasswordInput
@@ -34,18 +43,25 @@ const Signin = () => {
               />
               { errors.pw ? <ErrorMsg>패스워드 형식이 맞지 않습니다.</ErrorMsg> : null }
           </PasswordBox>
+          <PasswordConfirm>
+            <Title>패스워드 확인</Title>
+            <PasswordInput
+            {...register('pwConfirm', {required: true})}
+              type="password"
+              placeholder="비밀번호를 입력하세요."
+              />
+          </PasswordConfirm>
           <BtnBox>
-            <SubmitBtn type="submit" value="확인" />
+            <SubmitBtn type="submit" value="확인"></SubmitBtn>
             <CancelBtn
               onClick={() => {
                 navigate('/');
               }}
-            >
-              취소
+            >취소
             </CancelBtn>
           </BtnBox>
         </form>
-      </SigninBox>
+      </SignupBox>
     </Wrap>
   );
 };
@@ -59,9 +75,9 @@ const Wrap = styled.div`
   align-items: center;
 `;
 
-const SigninBox = styled.div`
+const SignupBox = styled.div`
   width: 26rem;
-  height: 30rem;
+  height: 48rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -83,7 +99,7 @@ const TitleBox = styled.div`
 const EmailBox = styled.div`
   box-sizing: border-box;
   width: 20rem;
-  height: 6.2rem;
+  height: 7rem;
   margin-top: 3rem;
   background-color: beige;
   display: flex;
@@ -112,11 +128,24 @@ const ErrorMsg = styled.span`
   color: red;
 `
 
+// 아이디
+const IdBox = styled.div`
+  box-sizing: border-box;
+  width: 20rem;
+  height: 7rem;
+  margin-top: 1.5rem;
+  background-color: beige;
+  display: flex;
+  flex-direction: column;
+`;
+
+const IdInput = styled(EmailInput)``;
+
 // 패스워드
 const PasswordBox = styled.div`
   box-sizing: border-box;
   width: 20rem;
-  height: 6.2rem;
+  height: 7rem;
   margin-top: 1.5rem;
   background-color: aquamarine;
   display: flex;
@@ -124,6 +153,9 @@ const PasswordBox = styled.div`
 `;
 
 const PasswordInput = styled(EmailInput)``;
+
+// 패스워드 확인
+const PasswordConfirm = styled(PasswordBox)``;
 
 // 버튼
 const BtnBox = styled.div`
@@ -154,5 +186,4 @@ const CancelBtn = styled.button`
 `;
 
 
-
-export default Signin;
+export default Signup;

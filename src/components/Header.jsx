@@ -2,9 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 import logo from '../logo.jpg';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 const Header = () => {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
+  const [isLogin, setIsLogin] = useState(false)
+
 
   return (
     <Wrap>
@@ -19,8 +22,8 @@ const Header = () => {
         ></SearchInput>
       </SearchBox>
       <RightBox>
-        <LoginBtn onClick={() => navigate('/signin')}>로그인</LoginBtn>
-        <SignupBtn>회원가입</SignupBtn>
+        <SignupBtn onClick={() => navigate('/signup')}>회원가입</SignupBtn>
+        <SigninBtn onClick={() => navigate('/signin')}>로그인</SigninBtn>
       </RightBox>
     </Wrap>
   );
@@ -95,7 +98,7 @@ const RightBox = styled.div`
   /* background-color: #e45903; */
 `;
 
-const LoginBtn = styled.button`
+const SigninBtn = styled.button`
   width: 5rem;
   height: 3rem;
   font-size: large;
@@ -104,6 +107,6 @@ const LoginBtn = styled.button`
   cursor: pointer;
 `;
 
-const SignupBtn = styled(LoginBtn)``;
+const SignupBtn = styled(SigninBtn)``;
 
 export default Header;
