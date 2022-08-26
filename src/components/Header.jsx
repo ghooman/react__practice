@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import logo from '../logo.jpg';
+import logo from '../insta_logo.png';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
