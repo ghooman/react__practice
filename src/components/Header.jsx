@@ -1,13 +1,12 @@
-import React from 'react';
-import styled from 'styled-components';
-import logo from '../insta_logo.png';
-import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import React from "react";
+import styled from "styled-components";
+import logo from "../insta_logo.png";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const Header = () => {
   const navigate = useNavigate();
-  const [isLogin, setIsLogin] = useState(false)
-
+  const [isLogin, setIsLogin] = useState(false);
 
   return (
     <Wrap>
@@ -22,8 +21,8 @@ const Header = () => {
         ></SearchInput>
       </SearchBox>
       <RightBox>
-        <SignupBtn onClick={() => navigate('/signup')}>회원가입</SignupBtn>
-        <SigninBtn onClick={() => navigate('/signin')}>로그인</SigninBtn>
+        <SignupBtn onClick={() => navigate("/signup")}>회원가입</SignupBtn>
+        <SigninBtn onClick={() => navigate("/signin")}>로그인</SigninBtn>
       </RightBox>
     </Wrap>
   );

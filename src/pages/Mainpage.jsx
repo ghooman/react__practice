@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Header from '../components/Header';
 
-const Mainpage = () => {
+const MainPage = () => {
   return (
     <Wrap>
       <Header />
@@ -22,4 +22,4 @@ const MainBox = styled.div`
   background-color: tomato;
 `;
 
-export default Mainpage;
+export default MainPage;

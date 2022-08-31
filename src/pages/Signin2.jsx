@@ -2,64 +2,63 @@ import React from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import axios from "axios";
 
 const Signin = () => {
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm();
-  const onSubmit = (data) => console.log(data);
-
   const navigate = useNavigate();
+  const [signin, setSignin] = useState(false);
+  const [signinInfo, setSigninInfo] = useState({
+    email: "",
+    pw: "",
+  });
 
+  const handleInputValue = (key, e) => {
+    setSignin({ ...signin, [key]: e.target.value });
+  };
+
+  const handleSignin = async ({ email, pw }) => {
+    try {
+      let response = await axios.post(
+        "서버URL",
+        { email, pw },
+        { headers: { "content-type": "application/json" } }
+      );
+      let data = response.data;
+      setSignin(true);
+    } catch (err) {
+      console.log("errors :", err);
+    }
+  };
   return (
     <Wrap>
       <SigninBox>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <TitleBox>로그인</TitleBox>
-          <EmailBox>
-            <Title>이메일</Title>
-            <EmailInput
-              {...register("email", {
-                required: true,
-                pattern:
-                  /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i,
-              })}
-              type="text"
-              placeholder="이메일을 입력하세요."
-            />
-            {errors.email ? (
-              <ErrorMsg>이메일 형식이 맞지 않습니다.</ErrorMsg>
-            ) : null}
-          </EmailBox>
-          <PasswordBox>
-            <Title>패스워드</Title>
-            <PasswordInput
-              {...register("pw", {
-                required: true,
-                pattern: /^(?=.*[a-zA-Z])((?=.*\d)(?=.*\W)).{8,16}$/,
-              })}
-              type="password"
-              placeholder="비밀번호를 입력하세요."
-            />
-            {errors.pw ? (
-              <ErrorMsg>패스워드 형식이 맞지 않습니다.</ErrorMsg>
-            ) : null}
-          </PasswordBox>
-          <BtnBox>
-            <SubmitBtn type="submit" value="확인" />
-            <CancelBtn
-              onClick={() => {
-                navigate("/");
-              }}
-            >
-              취소
-            </CancelBtn>
-          </BtnBox>
-        </form>
+        <TitleBox>로그인</TitleBox>
+        <EmailBox>
+          <Title>이메일</Title>
+          <EmailInput
+            type="text"
+            onChange={(e) => handleInputValue("email", e)}
+            placeholder="이메일을 입력하세요."
+          />
+        </EmailBox>
+        <PasswordBox>
+          <Title>패스워드</Title>
+          <PasswordInput
+            type="password"
+            onChange={(e) => handleInputValue("pw", e)}
+            placeholder="비밀번호를 입력하세요."
+          />
+        </PasswordBox>
+        <BtnBox>
+          <SubmitBtn onClick={() => handleSignin(signinInfo)}>확인</SubmitBtn>
+          <CancelBtn
+            onClick={() => {
+              navigate("/");
+            }}
+          >
+            취소
+          </CancelBtn>
+        </BtnBox>
       </SigninBox>
     </Wrap>
   );
@@ -152,7 +151,7 @@ const BtnBox = styled.div`
   justify-content: center;
 `;
 
-const SubmitBtn = styled.input`
+const SubmitBtn = styled.button`
   width: 3.8rem;
   height: 2.5rem;
   font-size: 1rem;

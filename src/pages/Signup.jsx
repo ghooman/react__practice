@@ -1,63 +1,86 @@
-import React from 'react';
-import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import React from "react";
+import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 
 const Signup = () => {
   const navigate = useNavigate();
-  const { register, handleSubmit, watch, formState: { errors } } = useForm();
-  const onSubmit = data => console.log(data);
-
-  console.log({errors})
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+  const onSubmit = (data) => {
+    console.log(data);
+  };
+  const onError = (error) => console.log("error", error.email.ref.value);
 
   return (
     <Wrap>
       <SignupBox>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit, onError)}>
           <TitleBox>회원가입</TitleBox>
           <EmailBox>
             <Title>이메일</Title>
             <EmailInput
-              {...register('email', {required: true, pattern: /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i})}
+              {...register("email", {
+                required: "필수 값입니다.",
+                pattern:
+                  /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i,
+              })}
               type="text"
               placeholder="이메일을 입력하세요."
-              />
-              { errors.email ? <ErrorMsg>이메일 형식이 맞지 않습니다.</ErrorMsg> : null }
+            />
+            {errors.email ? (
+              <ErrorMsg>이메일 형식이 맞지 않습니다.</ErrorMsg>
+            ) : null}
           </EmailBox>
           <IdBox>
             <Title>닉네임</Title>
             <IdInput
-              {...register('id', {required: true, pattern: /^[a-zA-Zㄱ-힣0-9-_.]{2,12}$/})}
+              {...register("id", {
+                required: true,
+                pattern: /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,16}$/,
+              })}
               type="text"
               placeholder="닉네임을 입력하세요."
-              ></IdInput>
-              { errors.id ? <ErrorMsg>아이디 형식이 맞지 않습니다.</ErrorMsg> : null }
+            ></IdInput>
+            {errors.id ? (
+              <ErrorMsg>아이디 형식이 맞지 않습니다.</ErrorMsg>
+            ) : null}
           </IdBox>
           <PasswordBox>
             <Title>패스워드</Title>
             <PasswordInput
-              {...register('pw', {required: true, pattern: /^(?=.*[a-zA-Z])((?=.*\d)(?=.*\W)).{8,16}$/})}
+              {...register("pw", {
+                required: true,
+                pattern: /^(?=.*[a-zA-Z])((?=.*\d)(?=.*\W)).{8,16}$/,
+              })}
               type="password"
               placeholder="비밀번호를 입력하세요."
-              />
-              { errors.pw ? <ErrorMsg>패스워드 형식이 맞지 않습니다.</ErrorMsg> : null }
+            />
+            {errors.pw ? (
+              <ErrorMsg>패스워드 형식이 맞지 않습니다.</ErrorMsg>
+            ) : null}
           </PasswordBox>
           <PasswordConfirm>
             <Title>패스워드 확인</Title>
             <PasswordInput
-            {...register('pwConfirm', {required: true})}
+              {...register("pwConfirm", { required: true })}
               type="password"
               placeholder="비밀번호를 입력하세요."
-              />
+            />
           </PasswordConfirm>
           <BtnBox>
             <SubmitBtn type="submit" value="확인"></SubmitBtn>
             <CancelBtn
               onClick={() => {
-                navigate('/');
+                navigate("/");
               }}
-            >취소
+            >
+              취소
             </CancelBtn>
           </BtnBox>
         </form>
@@ -126,7 +149,7 @@ const EmailInput = styled.input`
 const ErrorMsg = styled.span`
   margin-left: 1rem;
   color: red;
-`
+`;
 
 // 아이디
 const IdBox = styled.div`
@@ -184,6 +207,5 @@ const CancelBtn = styled.button`
   margin-left: 2rem;
   cursor: pointer;
 `;
-
 
 export default Signup;
