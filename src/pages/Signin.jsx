@@ -3,17 +3,26 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { login } from "../api/api";
 
 const Signin = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => console.log(data);
 
-  const navigate = useNavigate();
+  const onSubmit = async (data) => {
+    try {
+      const response = await login(data.email, data.pw);
+      console.log(response);
+    } catch (e) {
+      console.error(e);
+      alert(e);
+    }
+  };
 
   return (
     <Wrap>
@@ -40,7 +49,7 @@ const Signin = () => {
             <PasswordInput
               {...register("pw", {
                 required: true,
-                pattern: /^(?=.*[a-zA-Z])((?=.*\d)(?=.*\W)).{8,16}$/,
+                // pattern: /^(?=.*[a-zA-Z])((?=.*\d)(?=.*\W)).{8,16}$/,
               })}
               type="password"
               placeholder="비밀번호를 입력하세요."

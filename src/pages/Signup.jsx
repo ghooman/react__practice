@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { signUp } from "../api/api";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -12,23 +13,36 @@ const Signup = () => {
     watch,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => {
-    console.log(data);
+
+  const onSubmit = async (data) => {
+    if (data.pw !== data.pwConfirm) {
+      alert("패스워드와 패스워드 확인 값이 다릅니다.");
+      return;
+    }
+
+    try {
+      const response = await signUp(data.email, data.id, data.pw);
+      alert("회원가입에 성공했습니다.");
+      navigate("/signin");
+      console.log(response);
+    } catch (e) {
+      console.error(e);
+      alert(e);
+    }
   };
-  const onError = (error) => console.log("error", error.email.ref.value);
 
   return (
     <Wrap>
       <SignupBox>
-        <form onSubmit={handleSubmit(onSubmit, onError)}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <TitleBox>회원가입</TitleBox>
           <EmailBox>
             <Title>이메일</Title>
             <EmailInput
               {...register("email", {
-                required: "필수 값입니다.",
-                pattern:
-                  /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i,
+                required: true,
+                // pattern:
+                //   /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i,
               })}
               type="text"
               placeholder="이메일을 입력하세요."
@@ -42,7 +56,7 @@ const Signup = () => {
             <IdInput
               {...register("id", {
                 required: true,
-                pattern: /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,16}$/,
+                // pattern: /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,16}$/,
               })}
               type="text"
               placeholder="닉네임을 입력하세요."
@@ -56,7 +70,7 @@ const Signup = () => {
             <PasswordInput
               {...register("pw", {
                 required: true,
-                pattern: /^(?=.*[a-zA-Z])((?=.*\d)(?=.*\W)).{8,16}$/,
+                // pattern: /^(?=.*[a-zA-Z])((?=.*\d)(?=.*\W)).{8,16}$/,
               })}
               type="password"
               placeholder="비밀번호를 입력하세요."

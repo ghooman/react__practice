@@ -13,7 +13,7 @@ const Signin = () => {
   });
 
   const handleInputValue = (key, e) => {
-    setSignin({ ...signin, [key]: e.target.value });
+    setSigninInfo({ ...signinInfo, [key]: e.target.value });
   };
 
   const handleSignin = async ({ email, pw }) => {
