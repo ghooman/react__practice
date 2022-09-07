@@ -1,13 +1,18 @@
 import React from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { login } from "../api/api";
+import { getUsers, login } from "../api/api";
 import { useDispatch } from "react-redux";
-import { changeIsLogin } from "../store/isLogin";
+import { setIsLogin } from "../store/isLogin";
+import { setAccessToken, setRefreshToken } from "../store/tokens";
+import { getUserInfo } from "../store/user";
+import { useSelector } from "react-redux";
 
 const Signin = () => {
+  const tokens = useSelector((state) => state.tokens);
+  const isLogin = useSelector((state) => state.isLogin);
+  console.log(tokens);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const {
@@ -20,14 +25,23 @@ const Signin = () => {
   const onSubmit = async (data) => {
     try {
       const response = await login(data.email, data.pw);
-      dispatch(changeIsLogin());
       console.log(response);
+      navigate("/");
+      dispatch(
+        setIsLogin(),
+        setAccessToken(response.data.accessToken),
+        setRefreshToken(response.data.refreshToken)
+      );
+
+      // const userInfo = await getUsers();
+      // dispatch(getUserInfo(userInfo.data.users));
     } catch (e) {
       console.error(e);
       alert(e);
     }
   };
-
+  console.log(tokens);
+  console.log(isLogin);
   return (
     <Wrap>
       <SigninBox>

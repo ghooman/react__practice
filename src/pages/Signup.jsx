@@ -5,7 +5,6 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { signUp } from "../api/api";
 import { useDispatch } from "react-redux";
-import { changeIsLogin } from "../store";
 
 const Signup = () => {
   const navigate = useNavigate();

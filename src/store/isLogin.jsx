@@ -4,10 +4,10 @@ export const isLogin = createSlice({
   name: "login",
   initialState: false,
   reducers: {
-    changeIsLogin(state) {
+    setIsLogin(state) {
       return true;
     },
   },
 });
 
-export const { changeIsLogin } = isLogin.actions;
+export const { setIsLogin } = isLogin.actions;

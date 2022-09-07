@@ -22,7 +22,7 @@ const Header = () => {
       </SearchBox>
       <RightBox>
         {isLogin ? (
-          <button>마이페이지</button>
+          <MypageBtn>마이페이지</MypageBtn>
         ) : (
           <SignupBtn onClick={() => navigate("/signup")}>회원가입</SignupBtn>
         )}
@@ -111,5 +111,8 @@ const SigninBtn = styled.button`
 `;
 
 const SignupBtn = styled(SigninBtn)``;
+const MypageBtn = styled(SigninBtn)`
+  width: 6rem;
+`;
 
 export default Header;
