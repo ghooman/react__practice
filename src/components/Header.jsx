@@ -2,11 +2,11 @@ import React from "react";
 import styled from "styled-components";
 import logo from "../insta_logo.png";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useSelector } from "react-redux";
 
 const Header = () => {
   const navigate = useNavigate();
-  const [isLogin, setIsLogin] = useState(false);
+  const isLogin = useSelector((state) => state.isLogin);
 
   return (
     <Wrap>
@@ -21,7 +21,11 @@ const Header = () => {
         ></SearchInput>
       </SearchBox>
       <RightBox>
-        <SignupBtn onClick={() => navigate("/signup")}>회원가입</SignupBtn>
+        {isLogin ? (
+          <button>마이페이지</button>
+        ) : (
+          <SignupBtn onClick={() => navigate("/signup")}>회원가입</SignupBtn>
+        )}
         <SigninBtn onClick={() => navigate("/signin")}>로그인</SigninBtn>
       </RightBox>
     </Wrap>

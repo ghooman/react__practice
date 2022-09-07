@@ -4,9 +4,12 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { login } from "../api/api";
+import { useDispatch } from "react-redux";
+import { changeIsLogin } from "../store/isLogin";
 
 const Signin = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -17,6 +20,7 @@ const Signin = () => {
   const onSubmit = async (data) => {
     try {
       const response = await login(data.email, data.pw);
+      dispatch(changeIsLogin());
       console.log(response);
     } catch (e) {
       console.error(e);

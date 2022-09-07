@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { signUp } from "../api/api";
+import { useDispatch } from "react-redux";
+import { changeIsLogin } from "../store";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -24,6 +26,7 @@ const Signup = () => {
       const response = await signUp(data.email, data.id, data.pw);
       alert("회원가입에 성공했습니다.");
       navigate("/signin");
+
       console.log(response);
     } catch (e) {
       console.error(e);
