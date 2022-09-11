@@ -4,8 +4,8 @@ export const isLogin = createSlice({
   name: "login",
   initialState: false,
   reducers: {
-    setIsLogin(state) {
-      return true;
+    setIsLogin(state, action) {
+      return action.payload;
     },
   },
 });

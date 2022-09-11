@@ -3,10 +3,21 @@ import styled from "styled-components";
 import logo from "../insta_logo.png";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { setIsLogin } from "../store/isLogin";
+import { useEffect } from "react";
 
 const Header = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const isLogin = useSelector((state) => state.isLogin);
+
+  const handleSignout = () => {
+    localStorage.clear();
+    dispatch(setIsLogin(false));
+    console.log(localStorage);
+  };
+  console.log(isLogin);
 
   return (
     <Wrap>
@@ -26,7 +37,11 @@ const Header = () => {
         ) : (
           <SignupBtn onClick={() => navigate("/signup")}>회원가입</SignupBtn>
         )}
-        <SigninBtn onClick={() => navigate("/signin")}>로그인</SigninBtn>
+        {isLogin ? (
+          <SignoutBtn onClick={() => handleSignout()}>로그아웃</SignoutBtn>
+        ) : (
+          <SigninBtn onClick={() => navigate("/signin")}>로그인</SigninBtn>
+        )}
       </RightBox>
     </Wrap>
   );
@@ -111,6 +126,7 @@ const SigninBtn = styled.button`
 `;
 
 const SignupBtn = styled(SigninBtn)``;
+const SignoutBtn = styled(SigninBtn)``;
 const MypageBtn = styled(SigninBtn)`
   width: 6rem;
 `;

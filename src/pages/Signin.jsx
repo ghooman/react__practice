@@ -28,7 +28,7 @@ const Signin = () => {
       console.log(response);
       navigate("/");
       dispatch(
-        setIsLogin(),
+        setIsLogin(true),
         setAccessToken(response.data.accessToken),
         setRefreshToken(response.data.refreshToken)
       );
