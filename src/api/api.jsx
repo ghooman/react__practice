@@ -28,5 +28,5 @@ export const refreshAccessToken = async () => {
     headers: { ["Authorization"]: refreshToken },
   });
   api.defaults.headers.common["Authorization"] = res.data.data.accessToken;
-  return res;
+  return res.data.data.accessToken;
 };

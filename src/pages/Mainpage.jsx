@@ -1,18 +1,9 @@
 import React from "react";
-import { useEffect } from "react";
 import styled from "styled-components";
 import { getUsers, refreshAccessToken } from "../api/api";
 import Header from "../components/Header";
 
 const MainPage = () => {
-  const refreshToken = localStorage.getItem("REFRESH_TOKEN");
-
-  useEffect(() => {
-    if (refreshToken) {
-      refreshAccessToken();
-    }
-  }, []);
-
   const handleGetUserClick = async () => {
     try {
       const response = await getUsers();

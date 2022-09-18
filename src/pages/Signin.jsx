@@ -2,46 +2,30 @@ import React from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { getUsers, login } from "../api/api";
+import { login } from "../api/api";
 import { useDispatch } from "react-redux";
-import { setIsLogin } from "../store/isLogin";
-import { setAccessToken, setRefreshToken } from "../store/tokens";
-import { getUserInfo } from "../store/user";
-import { useSelector } from "react-redux";
+import { setAccessToken } from "../store/tokens";
 
 const Signin = () => {
-  const tokens = useSelector((state) => state.tokens);
-  const isLogin = useSelector((state) => state.isLogin);
-  console.log(tokens);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm();
 
   const onSubmit = async (data) => {
     try {
       const response = await login(data.email, data.pw);
-      console.log(response);
       navigate("/");
-      dispatch(
-        setIsLogin(true),
-        setAccessToken(response.data.accessToken),
-        setRefreshToken(response.data.refreshToken)
-      );
-
-      // const userInfo = await getUsers();
-      // dispatch(getUserInfo(userInfo.data.users));
+      dispatch(setAccessToken(response.data.accessToken));
     } catch (e) {
       console.error(e);
       alert(e);
     }
   };
-  console.log(tokens);
-  console.log(isLogin);
+
   return (
     <Wrap>
       <SigninBox>

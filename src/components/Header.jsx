@@ -2,20 +2,17 @@ import React from "react";
 import styled from "styled-components";
 import logo from "../insta_logo.png";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
-import { setIsLogin } from "../store/isLogin";
-import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { setAccessToken } from "../store/tokens";
 
 const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const isLogin = useSelector((state) => state.isLogin);
+  const isLogin = useSelector((state) => state.tokens.accessToken);
 
   const handleSignout = () => {
     localStorage.clear();
-    dispatch(setIsLogin(false));
-    console.log(localStorage);
+    dispatch(setAccessToken(null));
   };
   console.log(isLogin);
 
