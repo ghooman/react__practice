@@ -71,6 +71,17 @@ const Signin = () => {
             </CancelBtn>
           </BtnBox>
         </form>
+        <BtnBox>
+          <button
+            onClick={() =>
+              window.Kakao.Auth.authorize({
+                redirectUri: "http://localhost:3001",
+              })
+            }
+          >
+            카카오 로그인
+          </button>
+        </BtnBox>
       </SigninBox>
     </Wrap>
   );

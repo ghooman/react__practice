@@ -1,17 +1,14 @@
 import React from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { signUp } from "../api/api";
-import { useDispatch } from "react-redux";
 
 const Signup = () => {
   const navigate = useNavigate();
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm();
 
